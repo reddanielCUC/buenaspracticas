@@ -1,0 +1,119 @@
+class Nodo:
+    def __init__(self, dato):
+        self.dato = dato
+        self.siguiente = None
+
+
+class ListaEnlazada:
+    def __init__(self):
+        self.cabeza = None
+
+    def agregar_cliente(self, cliente_id):
+        nuevo_nodo = Nodo(cliente_id)
+
+        if not self.cabeza:
+            self.cabeza = nuevo_nodo
+            print(f"Cliente '{cliente_id}' agregado al inicio de la fila.")
+            return
+
+        actual = self.cabeza
+        while actual.siguiente:
+            actual = actual.siguiente
+
+        actual.siguiente = nuevo_nodo
+        print(f"Cliente '{cliente_id}' agregado al final de la fila.")
+
+    def eliminar_cliente(self, cliente_id):
+        if not self.cabeza:
+            print("La fila está vacía.")
+            return
+
+        
+        if self.cabeza.dato == cliente_id:
+            self.cabeza = self.cabeza.siguiente
+            print(f"Cliente '{cliente_id}' eliminado de la fila.")
+            return
+
+        actual = self.cabeza
+        anterior = None
+
+        while actual:
+            if actual.dato == cliente_id:
+                break
+            anterior = actual
+            actual = actual.siguiente
+
+        if actual:
+            anterior.siguiente = actual.siguiente
+            print(f"Cliente '{cliente_id}' eliminado de la fila.")
+        else:
+            print(f"Cliente '{cliente_id}' no se encontró en la fila.")
+
+    def buscar_cliente(self, cliente_id):
+        actual = self.cabeza
+
+        while actual:
+            if actual.dato == cliente_id:
+                print(f"Cliente '{cliente_id}' está en la fila.")
+                return True
+            actual = actual.siguiente
+
+        print(f"Cliente '{cliente_id}' no está en la fila.")
+        return False
+
+    def mostrar_fila(self):
+        if not self.cabeza:
+            print("La fila está vacía.")
+            return
+
+        clientes = []
+        actual = self.cabeza
+
+        while actual:
+            clientes.append(str(actual.dato))
+            actual = actual.siguiente
+
+        print("Fila actual:", " -> ".join(clientes))
+
+
+def mostrar_menu():
+    print("\n--- Gestión de Turnos ---")
+    print("1. Agregar cliente")
+    print("2. Eliminar cliente")
+    print("3. Buscar cliente")
+    print("4. Mostrar fila")
+    print("5. Salir")
+
+
+def main():
+    fila = ListaEnlazada()
+
+    while True:
+        mostrar_menu()
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            cliente = input("Ingrese el nombre o ID del cliente: ")
+            fila.agregar_cliente(cliente)
+
+        elif opcion == "2":
+            cliente = input("Ingrese el nombre o ID del cliente a eliminar: ")
+            fila.eliminar_cliente(cliente)
+
+        elif opcion == "3":
+            cliente = input("Ingrese el nombre o ID del cliente a buscar: ")
+            fila.buscar_cliente(cliente)
+
+        elif opcion == "4":
+            fila.mostrar_fila()
+
+        elif opcion == "5":
+            print("Saliendo del programa.")
+            break
+
+        else:
+            print("Opción inválida.")
+
+
+if __name__ == "__main__":
+    main()
